@@ -5,33 +5,37 @@ connection = psycopg2.connect(database='crm_database')
 cursor = connection.cursor()
 
 def greet():
-    greeting_input = input("What would you like to do?"
-                           "Add employee? Enter 'Add Employee'."
-                           "Add Company? Enter 'Add Company'."
-                           "Find Employee? Enter 'Find Employee'."
-                           "Find Company? Enter 'Find Company'."
-                           "See all employees? Enter 'See all employees'."
-                           "See all companies? Enter 'See all companies'."
-                           "Update an employee? Enter 'Update employee'."
-                           "Update a company? Enter 'Update company'. "
-                           "Delete an employee? Enter 'Delete employee'. "
-                           "Delete a company? Enter 'Delete company'. ")
-#------------------CREATE-------------------------------------------------------------------------------------
+    greeting_input = input("What would you like to do?\n"
+                           "Add employee? Enter 'Add Employee'. \n"
+                           "Add Company? Enter 'Add Company'. \n"
+                           "Find Employee? Enter 'Find Employee'. \n"
+                           "Find Company? Enter 'Find Company'. \n"
+                           "See all employees? Enter 'See all employees'. \n"
+                           "See all companies? Enter 'See all companies'. \n"
+                           "Update an employee? Enter 'Update employee'. \n"
+                           "Update a company? Enter 'Update company'. \n"
+                           "Delete an employee? Enter 'Delete employee'. \n"
+                           "Delete a company? Enter 'Delete company'. \n"
+                           "Exit app? Type CTRL + C (for mac or linux) or CRTL + Z (for windows) \n")
+#------------------CREATE------------------------------------------------------
     if greeting_input == 'Add Employee':
         def create_employee():
             employee_input = input("Enter employee name ")
             cursor.execute('INSERT INTO employees (name) VALUES (%s)', [employee_input])
         create_employee()
+        print("\n")
         greet()
+
     
     elif greeting_input == 'Add Company':
         def create_company():
             company_input = input("Enter company name ")
             cursor.execute('INSERT INTO companies (name) VALUES (%s)', [company_input])
         create_company()
+        print("\n")
         greet()
 
-#----------------READ-----------------------------------------------------------------------------
+#----------------READ-----------------------------------------------------------
 
     elif greeting_input == 'Find Employee':
         def find_employee():
@@ -40,6 +44,7 @@ def greet():
             results = cursor.fetchall()
             print(results)
         find_employee()
+        print("\n")
         greet()
 
     elif greeting_input == 'Find Company':
@@ -49,6 +54,7 @@ def greet():
             results = cursor.fetchall()
             print(results)
         find_company()
+        print("\n")
         greet()
 
     elif greeting_input == 'See all employees':
@@ -57,6 +63,7 @@ def greet():
             results = cursor.fetchall()
             print(results)
         all_employees()
+        print("\n")
         greet()
 
     elif greeting_input == 'See all companies':
@@ -65,6 +72,7 @@ def greet():
             results = cursor.fetchall()
             print(results)
         all_companies()
+        print("\n")
         greet()
 
 #---------------------UPDATE----------------------------------------------
@@ -82,6 +90,7 @@ def greet():
                 new_employer_id = input('Enter the new employer_id ')
                 cursor.execute('UPDATE employees SET employer_id = (%s) WHERE name = (%s)', [new_employer_id, employee_search_input])           
         update_employee()
+        print("\n")
         greet()
 
     elif greeting_input == 'Update company':
@@ -93,6 +102,7 @@ def greet():
             update_company_name = input('Enter the new name of the company ')
             cursor.execute('UPDATE companies SET name = (%s) WHERE name = (%s)', [update_company_name, company_search_input])          
         update_company()
+        print("\n")
         greet()
 
 #---------------DELETE---------------------------------------------------
@@ -102,6 +112,7 @@ def greet():
             cursor.execute("DELETE FROM employees WHERE name = %s", [employee_search_input])
         delete_employee()
         print("Employee deleted.")
+        print("\n")
         greet()
 
     elif greeting_input == "Delete company":
@@ -110,12 +121,16 @@ def greet():
             cursor.execute("DELETE FROM companies WHERE name = %s", [company_search_input])
         delete_company()
         print("Company deleted.")
+        print("\n")
         greet()
 
-#---------------Error in input
-    else:
-        print("Make sure you have no typos in your selection.")
-        greet()
+# #---------------EXIT
+#     elif greeting_input == "Exit":
+#         def exit():
+#             print("Exiting app.")
+#             while True:
+#                 user_input = input("Enter Exit. ")
+
 
 greet()
 
